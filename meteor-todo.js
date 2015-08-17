@@ -12,7 +12,7 @@
 Tasks = new Mongo.Collection("tasks");
 
 if (Meteor.isClient) {
-  
+
   // This code only runs on the client
   Template.body.helpers({
     tasks: function () {
@@ -26,6 +26,9 @@ if (Meteor.isClient) {
     },
     hideCompleted: function () {
       return Session.get("hideCompleted");
+    },
+    incompleteCount: function () {
+      return Tasks.find({checked: {$ne: true}}).count();
     }
   });
 
