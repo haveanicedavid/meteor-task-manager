@@ -43,8 +43,10 @@ if (Meteor.isClient) {
       // Insert a task into the collection
       Tasks.insert({
         text: text,
-        createdAt: new Date() // current time
-      });
+        createdAt: new Date(),            // current time
+        owner: Meteor.userId(),           // _id of logged in user
+        username: Meteor.user().username  // username of logged in user      });
+    });
 
       // Clear form
       event.target.text.value = "";
@@ -55,8 +57,8 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.task.events({
-    "click .toggle-checked": function () {
+      Template.task.events({
+        "click .toggle-checked": function () {
       // Set the checked property to the opposite of its current value
       Tasks.update(this._id, {
         $set: {checked: ! this.checked}
@@ -67,4 +69,8 @@ if (Meteor.isClient) {
     }
   });
 
-}
+      Accounts.ui.config({
+        passwordSignupFields: "USERNAME_ONLY"
+      });
+
+    }
